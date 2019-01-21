@@ -1,4 +1,4 @@
 ## ***In development. Not functional***
 
-# pkf_arma-auot-save
+# pkf_arma-auto-save
 Install systemd service/path to auto-archive all save games (unlimited saves)
