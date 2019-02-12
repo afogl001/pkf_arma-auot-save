@@ -1,0 +1,5 @@
+# OS/DE specific
+.directory
+
+# Internal drafting/testing
+v.*
