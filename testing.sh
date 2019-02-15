@@ -34,8 +34,6 @@ case $vTestMenu in
     sed -i 's/\/etc\/systemd/testing\/etc\/systemd/g' arma_auto_save.sh  #Set "/etc/systemd" path to test mode
     sed -i 's/\/usr\/bin/testing\/usr\/bin/g' arma_auto_save.sh
     sed -i 's/systemctl/#systemctl/g' arma_auto_save.sh  # Comment out systemctl commands
-    #sed -i 's/sudo\ echo/echo/g' arma_auto_save.sh  # Change sudo echo to echo (to write to testing dir without requring root priv)
-    #sed -i 's/sudo\ rm\ -f/rm\ -f/g' arma_auto_save.sh  # Change sudo echo to echo (to write to testing dir without requring root priv)
     mkdir -p testing/etc/systemd/system
     mkdir -p testing/usr/bin
     mkdir -p testing/ARMA/Promgram\ Files/1985
@@ -80,8 +78,6 @@ case $vTestMenu in
     sed -i 's/testing\/etc\/systemd/\/etc\/systemd/g' arma_auto_save.sh  #Unset "/etc/systemd" path from test mode
     sed -i 's/testing\/usr\/bin/\/usr\/bin/g' arma_auto_save.sh  #Unset "/usr/bin" path from test mode
     sed -i 's/#systemctl/systemctl/g' arma_auto_save.sh  #Uncomment systemctl commands
-    #sed -i 's/echo/sudo\ echo/g' arma_auto_save.sh  # Change echo to sudo (to write to /etc/systemd/system)
-    #sed -i 's/rm\ -f/sudo\ rm\ -f/g' arma_auto_save.sh  # Change echo to sudo (to write to /etc/systemd/system)
     rm -rf testing
     echo "Test mode disabled"
   fi

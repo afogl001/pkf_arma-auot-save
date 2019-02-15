@@ -1,11 +1,11 @@
-# **pkf_arma-auto-save** v0.1.0
+# **pkf_arma-auto-save** v0.2.0
 Install systemd service/path to auto-archive all save games (unlimited saves)
 
 ## Description
 This script will provide an "Arma: Cold War Assault" player with unlimited saves and the ability to quickly load the last save without manually moving/renaming files.  It will also preserve ALL save games that can be manually loaded via moving/renaming if the player wishes (helpful when the player saves after a game-breaking bug/glitch occurs such as a faulty event trigger)
 
 ## Usage
-Ideally, this script should be run in a separate virtual console (generally accessed by pressing "*Ctl+Alt+F#*") for easy access without needing to minimize the running application but can be run in any terminal emulator (Konsole, Terminal, etc) if desired.
+This script can be run in a separate virtual console (generally accessed by pressing "*Ctl+Alt+F#*") for use without needing to minimize the running application but can be run in any terminal emulator (Konsole, Terminal, etc) if it's more reliable.
 To run the script, simply make it executable and run as your regular user.  The presented menu is ordered in the general sequence you would follow when initially configuring or updating the use of this script.  ***NOTE: User WILL be prompted their password when running options 3, 4, 5, and 6 since these options interact with systemd***
 
 **"Current path:"** = Shows the current path (if any) to the save games directory being used by "pkf_arma-auto-save".  This will be blank if "pkf_arma-auto-save" has not been previously configured.
@@ -20,7 +20,9 @@ To run the script, simply make it executable and run as your regular user.  The 
 
 **5: "Load last saved game:"** = Copies the last saved game and names it "continue.fps", allowing you to load the last saved game by clicking "Continue" from your campaign screen.  ***NOTE: You must exit your active game (back to the campaign screen or main menu) BEFORE running, otherwise the game will overwrite with wherever you actually left the game***
 
-**6: "Remove systemd service:"** = Will stop/disable all installed services, remove them from your system entirely, then reloads systemd to clear out any cache of it.
+**6: "Load specified save:"** = Allows you to specify a specific saved game based on who new it is by providing a single integer when prompted.  The integer corresponds to the "recentness" of the save.  For example, if you save your game five times, entering a value of "1" will load your most recent save (essentially the same as running option 5) while entering a value of "5" will load the very first time you saved the game.  ***NOTE: You must exit your active game (back to the campaign screen or main menu) BEFORE running, otherwise the game will overwrite with wherever you actually left the game***
+
+**7: "Remove systemd service:"** = Will stop/disable all installed services, remove them from your system entirely, then reloads systemd to clear out any cache of it.
 
 **0: "Exit:"** = Closes script.  If you have installed the systemd services by using options 2 -> 3 -> 4, you will continue to enjoy unlimited saves and can either load this script again and use option 5 (to automatically load your last save) or manually copy and rename the desired save.fps.###### file as "continue.fps".
 
@@ -30,18 +32,13 @@ If you decide to start a new campaign, you can simply run options 2 -> 3 -> 4 ag
 - ***ONLY SUPPORTED ON GNU/LINUX using systemd***
 - ***NO CLEANUP***.  This isn't a huge concern as the save.fps files are not very large but over time you may want to manually remove older save files.  This is technically as designed as I wanted a sort of "archive" of all my saves but a feature to clean old ones up if desired may be considered in future releases.
 - For "Option 2", the search parameters are a little loose, simply checking for "ARMA" (all caps) and "save.fps*".  This seems adequate for now but other installations of Arma: Cold War Assault may not adhere to these assumptions and Operation Flashpoint certainly won't!
-- For "Option 5", you can only load last saved game.  This may be addressed in a future release depending on how much the author sucks at getting through the campaigns
 - Only supports one campaign at a time (though mitigated by simply running 3->4->5 to switch back and forth)
 
 ### Planned Improvements
-- ***Check that user is running with sudo (but not root)***
-- ***Update testing.sh to add a space in the path***
-- ***Remove all the "sudos" and update testing.sh accordingly***
-- Possibly add an option to load saved games from a limited list instead of just the last save.
 - Consider adding a clean up option which would remove all but the last 10 saves
 - Set limits on searches so they don't slow down if there's hundreds of saves
 - For Option 6, make sure user enters number within range of current available files
-- Maybe echo the DTG of the save the user loaded via Option 6
+- For Option 6, consider showing user how old the loaded game was (compare timestamp)
 
 ### **Code overview**
 
@@ -51,5 +48,6 @@ If you decide to start a new campaign, you can simply run options 2 -> 3 -> 4 ag
 - $vSavePath = Full path the the specific campaign's save directory.
 - $vMainMenu = Holds value for what option is selected
 - $vResponse = Holds value for user's answer to prompted Y/N questions  
+- $vSaveNum = Holds the value passed to load a specified game based on how recently it was saved
 
 #### TODO: Elaborate on code

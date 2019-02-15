@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vSavePath=$(grep -i "using path" /etc/systemd/system/arma_auto_save.service  | cut -d':' -f 2)
+vSavePath=$(grep -i "using path" /etc/systemd/system/arma_auto_save.service 2> /dev/null | cut -d':' -f 2); # Redirect error if raised when directory doesn't exist
 
 if [ $EUID != 0 -o $HOME == "/root" ];  # Exit if effective user is not root or the actual user is root (force user to run via  with his/her normal user)
 then
@@ -23,8 +23,8 @@ do
     printf "2: Set path for saved games\n"
     printf "3: Setup systemd service and path for auto-save\n"
     printf "4: Start/enable or stop/disable path service\n"
-    printf "5: Load last saved game (will be copied to \"continue\" file):!EXIT CURRENT GAME FIRST!\n"
-    printf "6: Load specified save (starting from "1" being last save)\n"
+    printf "5: Load last saved game (will be copied to \"continue\" file): ***EXIT CURRENT GAME FIRST***\n"
+    printf "6: Load specified save (starting from "1" being last save): ***EXIT CURRENT GAME FIRST***\n"
     printf "7: Remove systemd services (i.e., uninstall)\n"
     ###### "9": # Move discovered "save.fps" (for use by service only)
     printf "0: Exit\n"
@@ -122,7 +122,7 @@ do
     cp -f "$vSavePath"/$(ls "$vSavePath" | sort -r | head -1) "$vSavePath"/continue.fps
   ;;
 
-  6 )
+  6 )  # Load specified save
   # Check if service file exsit (back to loop if it doesn't)
   if [ ! -f /etc/systemd/system/arma_auto_save.service ];
   then
@@ -132,6 +132,8 @@ do
   fi
   printf "Enter the number of the save you wish to load\n"
   printf "\"1\" being the most recent save, \"2\" being your second most recent save, etc\n"
+  printf "NOTE: You must exit your current game before runnings this command\n"
+  printf "    Otherwise, your currnet game will overwrite it at exit...\n"
   read vSaveNum
   if [ "$vSaveNum" -lt 1 -o "$vSaveNum" -gt 9999 ];
   then
@@ -140,7 +142,6 @@ do
   fi
   printf "Copying the $vSaveNum newest save to \"Contine\" file\n"
   cp -f "$vSavePath"/$(ls "$vSavePath" | sort -r | head -$vSaveNum | tail -1) "$vSavePath"/continue.fps
-  #find ~/ -name save.fps.* -type f -print | grep ARMA | sort -r | head -$vSaveNum | tail -1
   ;;
 
   7 )  # Remove systemd services
@@ -173,7 +174,6 @@ do
 
   * )
   printf "Pleaes enter a valid option\n"
-
   esac
 
 done
