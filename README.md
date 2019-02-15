@@ -2,7 +2,7 @@
 Install systemd service/path to auto-archive all save games (unlimited saves)
 
 ## Description
-This script will provide an "Arma: Cold War Assault" player with unlimited saves and the ability to quickly load the last save without manually moving/renaming files.  It will also preserve ALL save games that can be manually loaded via moving/renaming if the player wishes (helpfully when the player saves after a game-breaking bug/glitch occurs such as a faulty event trigger)
+This script will provide an "Arma: Cold War Assault" player with unlimited saves and the ability to quickly load the last save without manually moving/renaming files.  It will also preserve ALL save games that can be manually loaded via moving/renaming if the player wishes (helpful when the player saves after a game-breaking bug/glitch occurs such as a faulty event trigger)
 
 ## Usage
 Ideally, this script should be run in a separate virtual console (generally accessed by pressing "*Ctl+Alt+F#*") for easy access without needing to minimize the running application but can be run in any terminal emulator (Konsole, Terminal, etc) if desired.
@@ -12,7 +12,7 @@ To run the script, simply make it executable and run as your regular user.  The 
 
 **1: "Find existing paths for saved games:"** = List all directories where "Arma: Cold Ware Assault" save files are located (within the user's home directory, aka '~').  The results can be directly copy/pasted into the next option to avoid typing potentially log path names.
 
-**2: "Set path for saved games:"** = Specify the path the the save game directory you wish to set unlimited saves for.  You may manually type in a known path or copy one of the results from the option above.  Do not include the save file name in the path.  For example, if a save file is located at "/home/user001/ARMA/1985/save.fps", you would use "/home/user001/ARMA/1985" as your path.
+**2: "Set path for saved games:"** = Specify the path to the save game directory you wish to set unlimited saves for.  You may manually type in a known path or copy one of the results from the option above.  Do not include the save file name in the path.  For example, if a save file is located at "/home/user001/ARMA/1985/save.fps", you would use "/home/user001/ARMA/1985" as your path.
 
 **3: "Setup systemd service and path for auto-save:"** = Writes a .service and a .path file for systemd, which are used to automate the "unlimited save" feature without manual intervention.  It simply writes an "arma_auto_save.service" and "arma_auto_save.path" files and reloads the systemd deamon.  It WILL NOT enable/activate the service, which is done via the next option.
 
@@ -27,14 +27,21 @@ To run the script, simply make it executable and run as your regular user.  The 
 If you decide to start a new campaign, you can simply run options 2 -> 3 -> 4 again with the new campaign's save path, and resume your previous campaign by following the same steps.  
 
 ## Limitations
+- ***ONLY SUPPORTED ON GNU/LINUX using systemd***
 - ***NO CLEANUP***.  This isn't a huge concern as the save.fps files are not very large but over time you may want to manually remove older save files.  This is technically as designed as I wanted a sort of "archive" of all my saves but a feature to clean old ones up if desired may be considered in future releases.
 - For "Option 2", the search parameters are a little loose, simply checking for "ARMA" (all caps) and "save.fps*".  This seems adequate for now but other installations of Arma: Cold War Assault may not adhere to these assumptions and Operation Flashpoint certainly won't!
 - For "Option 5", you can only load last saved game.  This may be addressed in a future release depending on how much the author sucks at getting through the campaigns
 - Only supports one campaign at a time (though mitigated by simply running 3->4->5 to switch back and forth)
 
 ### Planned Improvements
+- ***Check that user is running with sudo (but not root)***
+- ***Update testing.sh to add a space in the path***
+- ***Remove all the "sudos" and update testing.sh accordingly***
 - Possibly add an option to load saved games from a limited list instead of just the last save.
 - Consider adding a clean up option which would remove all but the last 10 saves
+- Set limits on searches so they don't slow down if there's hundreds of saves
+- For Option 6, make sure user enters number within range of current available files
+- Maybe echo the DTG of the save the user loaded via Option 6
 
 ### **Code overview**
 
