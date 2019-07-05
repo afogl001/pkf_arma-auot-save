@@ -4,8 +4,8 @@ vSavePath=$(grep -i "using path" /etc/systemd/system/arma_auto_save.service 2> /
 
 if [ $EUID != 0 -o $HOME == "/root" ];  # Exit if effective user is not root or the actual user is root (force user to run via  with his/her normal user)
 then
-  printf "\nPlease run this script as your normal user but using \n"
-  printf "  Example: \"user001:\$  ./arma_auto_save.sh\"\n"
+  printf "\nPlease run this script as your normal user but using \"sudo\"\n"
+  printf "  Example: \"user001:\$ sudo ./arma_auto_save.sh\"\n"
   exit 100
 fi
 
@@ -35,7 +35,7 @@ do
   case $vMainMenu in
   1 ) # 1: Find existing paths for saved games
     printf "Searching $HOME for saved games\n\n"
-    find ~/ -name save.fps* -type f -print | grep ARMA | sed "s/\/save.fps.*//" | uniq
+    find ~/ -name save.fps* -type f -print | grep -i arma | sed "s/\/save.fps.*//" | uniq
   ;;
 
   2 ) # 2: Set path for saved games
@@ -68,6 +68,7 @@ do
     echo "WantedBy=graphical.target" >> /etc/systemd/system/arma_auto_save.path
 
      systemctl daemon-reload
+     printf "\nFirst time configuration should use Option: 4 to start and enable service\n"
     ;;
 
   4 ) # Start/enable or stop/disable path service
