@@ -1,4 +1,4 @@
-# **pkf_arma-auto-save** v0.2.0
+# **pkf_arma-auto-save** v1.2.0
 Install systemd service/path to auto-archive all save games (unlimited saves)
 
 ## Description
@@ -39,6 +39,8 @@ If you decide to start a new campaign, you can simply run options 2 -> 3 -> 4 ag
 - Set limits on searches so they don't slow down if there's hundreds of saves
 - For Option 6, make sure user enters number within range of current available files
 - For Option 6, consider showing user how old the loaded game was (compare timestamp)
+- Consider adding support for multiple-campaigns at once
+- Add service status to main loop (so user knows if they have to enable or disable it)
 
 ### **Code overview**
 
