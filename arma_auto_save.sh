@@ -120,7 +120,7 @@ do
     printf "Copying last save to \"Contine\" file\n"
     printf "NOTE: You must exit your current game before runnings this command\n"
     printf "    Otherwise, your currnet game will overwrite it at exit...\n"
-    cp -f "$vSavePath"/$(ls "$vSavePath" | sort -r | head -1) "$vSavePath"/continue.fps
+    cp -fp "$vSavePath"/$(ls "$vSavePath" | sort -r | head -1) "$vSavePath"/continue.fps
   ;;
 
   6 )  # Load specified save

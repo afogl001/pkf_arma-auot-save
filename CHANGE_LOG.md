@@ -3,6 +3,8 @@
   + Add support for native GNU/Linux Steam version
   + Restructure CHANGE_LOG
   + Fix minor typos in comments
+- v1.2.1
+  + Fix "Option 5" changing ownership of "continue.fps" to root (therefor disabling normal functionality of "Abort/Continue") when restoring save.
 
 ##### v1.1
 - v1.1.0
